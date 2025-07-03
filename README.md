@@ -2,26 +2,63 @@
 
 This internal Python tool streamlines the processing of CSV files containing financial transaction data. Built with a custom Tkinter GUI, it transforms raw exports into clean, structured Excel workbooks ready for reporting and reconciliation.
 
-## 🔧 What It Does
+## What It Does
 
-- Converts `.csv` financial data into a formatted `.xlsx` workbook
-- Standardizes account names using company-specific abbreviations
-- Formats date fields as `MM/DD/YYYY` and preserves them as text (Excel-safe)
-- Generates unique transaction IDs for duplicate detection
-- Splits data into three Excel sheets:
-  - `Cleaned Data` – unique transactions
-  - `Duplicates` – duplicate transaction IDs
-  - `Double Duplicates` – recurring duplicates
-- Removes sensitive fields like account numbers and check IDs
-- Uses a lightweight, self-contained GUI for non-technical users
-
-## 👨‍💻 Tech Highlights
-
-- Python 3 with `pandas`, `openpyxl`, and `numpy`
-- Tkinter for the desktop GUI
-- File-safe operations for easy use by internal finance/admin teams
-- Designed for Windows; no external deployment required
+- Accepts `.csv` files with transactional financial data
+- Cleans and standardizes column values:
+  - Abbreviates `ACCOUNT_NAME` for easier reading
+  - Deletes unwanted columns (e.g., `DFI_ID`, `FITID`)
+- Converts `DTPOSTED` to readable `DATE` column
+- Generates a unique `ID` for each row based on:
+  - `ACCOUNT_NAME` + Excel-style serial date + `TRNAMT`
+- Detects and splits:
+  - Duplicates → saved in a separate sheet
+  - Double duplicates → isolated to a third sheet
+- Exports cleaned results to an `.xlsx` file with multiple tabs
+- Preserves date formatting for Excel compatibility
+- Provides a modern and intuitive GUI with file selection and open buttons
 
 ---
 
-*Developed as part of internal automation efforts to reduce manual data handling and ensure consistent formatting across financial reports.*
+## GUI Features
+
+- Built with `tkinter` and styled using `tkFont`
+- Drag-to-move custom window behavior
+- Interactive button hover effects
+- Inline progress status label (`Processing...`, `Complete!`, `Failed`)
+- One-click to open the generated Excel file
+
+---
+
+## Tech Stack
+
+- **Python 3.10+**
+- `tkinter` (built-in GUI library)
+- `pandas` for data manipulation
+- `openpyxl` for Excel export
+- `numpy` for data type handling
+
+---
+
+## Input File Requirements
+
+- Must be a `.csv` file
+- Required columns:
+  - `ACCOUNT_NAME`
+  - `DTPOSTED` (YYYYMMDD format)
+  - `TRNAMT` (transaction amount)
+  - `NAME` (for additional duplicate ID clarification)
+
+---
+
+## Output
+
+- Processed file is saved in the same directory as the original with the format:
+
+
+---
+
+## ⚠️ Note
+- Internal Use Only!
+- This tool is intended solely for authorized staff at Blitz Medical Billing. 
+- Do **not** distribute or use this application outside approved environments.
